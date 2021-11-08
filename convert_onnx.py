@@ -48,4 +48,4 @@ if __name__ == '__main__':
                     verbose=False,
                     input_names=['data'],
                     opset_version=11)
-    print(f'Exported ONNX model as {out_file}'
+    print(f'Exported ONNX model as {out_file}')
