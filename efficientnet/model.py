@@ -47,6 +47,8 @@ class MBConvBlock(nn.Module):
         # Depthwise convolution phase
         k = self._block_args.kernel_size
         s = self._block_args.stride
+        if isinstance(s, list):
+            s = s[0]
         self._depthwise_conv = Conv2d(
             in_channels=oup, out_channels=oup, groups=oup,  # groups makes it depthwise
             kernel_size=k, stride=s, bias=False)
@@ -213,7 +215,7 @@ class EfficientNet(nn.Module):
         return cls(blocks_args, global_params)
 
     @classmethod
-    def from_pretrained(cls, model_name, load_weights=True, advprop=False, num_classes=1000, in_channels=3):
+    def from_pretrained(cls, model_name, load_weights=True, advprop=True, num_classes=1000, in_channels=3):
         model = cls.from_name(model_name, override_params={'num_classes': num_classes})
         if load_weights:
             load_pretrained_weights(model, model_name, load_fc=(num_classes == 1000), advprop=advprop)
